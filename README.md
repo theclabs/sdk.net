@@ -1,11 +1,15 @@
 # MercadoLibre's .NET SDK
 
-This is the official .NET SDK for MercadoLibre's Platform.
+This is an unofficial SDK. NET platform for MercadoLibre.
+Born from the Official SDK.NET Mercadolibre which is continuous here
+Modified by Team TheClabs-ULP for MercadoLibre hackathon
 
 ## How do I install it?
 
-You can download the latest build at: 
+If You want, can download the latest official build at: 
     http://github.com/mercadolibre/net-sdk/downloads
+    
+If not, can download this and get started quickly without problems!!! yeap!
 
 And that's it!
 
