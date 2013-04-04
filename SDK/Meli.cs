@@ -34,6 +34,12 @@ namespace MercadoLibre.SDK
 
         public String UserLogedId { get; private set; }
 
+
+        /// <summary>
+        /// Crea un objeto Meli necesario para poder realizar la Autorizacion y Autenticacion.
+        /// </summary>
+        /// <param name="clientId">ID del cliente de la aplicación</param>
+        /// <param name="clientSecret">SECRET de la aplicación</param>
 		public Meli (long clientId, string clientSecret)
 		{
 			this.ClientId = clientId;
@@ -56,6 +62,14 @@ namespace MercadoLibre.SDK
 			this.RefreshToken = refreshToken;
 		}
 
+
+        /// <summary>
+        /// Devuelve la URL para obtener la autorizacion.
+        /// El retorno es de la forma:
+        /// https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=ID_CLIENTE&redirect_uri=redirectUri
+        /// </summary>
+        /// <param name="redirectUri">URL a la cual va a enviar el "code" cuando el USUARIO se autentique correctamente.</param>
+        /// <returns></returns>
 		public string GetAuthUrl (string redirectUri)
 		{
 
@@ -85,7 +99,11 @@ namespace MercadoLibre.SDK
             return sourceCode;
         }
 
-        // obtiene token y demas datos enviando la autorizacion con el code.
+        /// <summary>
+        /// Autoriza a la "aplicacion" para poder usar la API, obteniendo el TOKEN y REFRESH TOKEN
+        /// </summary>
+        /// <param name="code">Codigo para autorizar al usuario</param>
+        /// <param name="redirectUri"></param>
 		public void Authorize (string code, string redirectUri)
 		{
 			var request = new RestRequest ("/oauth/token?grant_type=authorization_code&client_id={client_id}&client_secret={client_secret}&code={code}&redirect_uri={redirect_uri}", Method.POST);
@@ -124,6 +142,9 @@ namespace MercadoLibre.SDK
         }
 
         //Elimina los tokens y refresh que halla en el sistema
+        /// <summary>
+        /// Desautoriza a la "aplicacion" borrando su TOKEN y REFRESH TOKEN
+        /// </summary>
         public void deAuth()
         {
             this.AccessToken = "destruido";
@@ -156,6 +177,11 @@ namespace MercadoLibre.SDK
 		}
 
         // parsea el token para la busqueda de el ID del usuario que esta logueado. lo guarda y lo retorna
+        /// <summary>
+        /// Parsea el TOKEN retornando el ID del usuario dueño de ese TOKEN
+        /// </summary>
+        /// <param name="token">El TOKEN que del logueo</param>
+        /// <returns> ID del usuario logueado</returns>
         public string getUserLoguedID(String token)
         {
             String test = token;
@@ -309,7 +335,7 @@ namespace MercadoLibre.SDK
 				request.AddHeader ("Content-Type", "application/json");
 				request.RequestFormat = DataFormat.Json;
 
-				request.AddBody (body);
+				request.AddBody (body); // Serializa automaticamente a JSON
 				response = ExecuteRequest (request);
 			}
 
@@ -365,7 +391,5 @@ namespace MercadoLibre.SDK
 			client.UserAgent = sdkVersion;
 			return client.Execute(request);
 		}
-
-
 	}
 }
